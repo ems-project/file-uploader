@@ -1,0 +1,28 @@
+{
+  "name": "@elasticms/file-uploader",
+  "version": "1.0.1",
+  "description": "upload a file chunk by chunk",
+  "main": "FileUploader.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ems-project/file-uploader.git"
+  },
+  "keywords": [
+    "elasticms",
+    "file",
+    "upload",
+    "chunk"
+  ],
+  "author": "Mathieu De Keyzer <mathieu@dekeyzer.net>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ems-project/file-uploader/issues"
+  },
+  "homepage": "https://github.com/ems-project/file-uploader#readme",
+  "dependencies": {
+    "@elasticms/hash-file": "^1.0.3"
+  }
+}
