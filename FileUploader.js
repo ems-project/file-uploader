@@ -17,7 +17,8 @@ export default class FileUploader {
             UPLOADING: 3,
             PAUSE: 4,
             LOADING: 5,
-            UPLOADERROR: 6
+            UPLOADERROR: 6,
+            ABORTED: 7,
         };
 
         if(params.file) {
@@ -90,6 +91,7 @@ export default class FileUploader {
             || this.status === this.statics.PAUSE) {
 
             const xmlHttp = new XMLHttpRequest();
+            this.currentXMLHttpRequest = xmlHttp;
 
             xmlHttp.onload = function () {
                 if (this.status === 200) {
@@ -132,6 +134,14 @@ export default class FileUploader {
             xmlHttp.setRequestHeader("Content-type", "application/json; charset=utf-8");
 
             xmlHttp.send(params);
+        }
+    }
+
+    abort() {
+        this.status = this.statics.ABORTED;
+        this.errorDescription = 'Upload aborted';
+        if (undefined !== this.currentXMLHttpRequest && typeof this.currentXMLHttpRequest.abort === "function") {
+            this.currentXMLHttpRequest.abort();
         }
     }
 
@@ -194,6 +204,7 @@ export default class FileUploader {
             // console.log('load from '+this.uploaded+' to '+Math.min(this.statics.CHUNK_SIZE, this.size-this.uploaded));
             const blob = this.file.slice(this.uploaded, this.uploaded + Math.min(this.statics.CHUNK_SIZE, this.size - this.uploaded));
             const xhr = new XMLHttpRequest();
+            this.currentXMLHttpRequest = xhr;
 
             const self = this;
             //add listener to the XHR object in case of success or fail
@@ -229,7 +240,7 @@ export default class FileUploader {
             if (this.uploaded === this.size) {
                 const response = JSON.parse(event.target.responseText);
 
-                if (!response.error) {
+                if (undefined === response.error || 0 === response.error.length) {
                     this.finalizeUpload(response);
                 }
                 else {
