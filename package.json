@@ -1,6 +1,6 @@
 {
   "name": "@elasticms/file-uploader",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "upload a file chunk by chunk",
   "main": "FileUploader.js",
   "scripts": {
