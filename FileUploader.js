@@ -229,7 +229,7 @@ export default class FileUploader {
             if (this.uploaded === this.size) {
                 const response = JSON.parse(event.target.responseText);
 
-                if (!response.error) {
+                if (undefined === response.error || 0 === response.error.length) {
                     this.finalizeUpload(response);
                 }
                 else {
